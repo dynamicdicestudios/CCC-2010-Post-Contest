@@ -23,26 +23,37 @@ for i in range(2):
     index = -1000000
     for j in range(num):
         if j == 0:
-            if sums[j] > sums[j + 1] and index != j and sums[j] <= temp1:
+            if sums[j] > sums[j + 1]:
                 index = j
-            elif sums[j + 1] > sums[j] and index != j + 1 and sums[j+1] <= temp1:
+            elif sums[j + 1] > sums[j]:
                 index = j + 1
-            elif sums[j] == sums[j + 1] and index != j and sums[j] <= temp1:
-                index = j
+            elif sums[j] == sums[j + 1]:
+                if len(computers[j][0]) < len(computers[j+1][0]):
+                    index = j+1
+                elif len(computers[j][0]) >= len(computers[j+1][0]):
+                    index = j
             elif num == 2:
-                if index == 0:
-                    index = 1
+                if first == 0:
+                    first = 1
                 else:
-                    index = 0
+                    first = 0
+                break
         else:
-            if sums[j] > sums[index] and index != j and sums[j] <= temp1 and j != first:
-                index = j
+            if sums[j] >= sums[index] and index != j and sums[j] <= temp1 and j != first:
+                if sums[j] == sums[index]:
+                    if len(computers[j][0]) > len(computers[index][0]):
+                        index = j
+                else:
+                    index = j
     pref.append(computers[index][0])
-    first = index
     if i == 0:
+        first = index
         temp1 = sums[index]
     else:
-        temp2 = sums[index]
+        if num == 2:
+            temp2 = sums[first]
+        else:
+            temp2 = sums[index]
 
 if temp1 == temp2:
     if len(pref[0]) < len(pref[1]):
